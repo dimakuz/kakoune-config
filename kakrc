@@ -26,10 +26,12 @@ plug "lenormf/kakoune-extra" load %{
     vcs.kak
 }
 plug "ficoos/tool.kak"
+plug "andreyorst/tagbar.kak"
+
 
 source "%val{config}/lsp.kak"
 
-colorscheme gotham
+colorscheme zenburn
 
 # hide clippy
 set-option global ui_options ncurses_assistant=none
@@ -268,6 +270,10 @@ define-command dup-view \
     -docstring 'dup-view <client>: duplicate current view to client' \
 %{
     edit-at %arg{1} %val{buffile} %val{cursor_line} %val{cursor_column}
+}
+
+hook global WinSetOption filetype=(c|cpp|go|py) %{
+    tagbar-enable
 }
 
 # must be last for ordering reasons
