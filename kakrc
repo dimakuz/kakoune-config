@@ -272,6 +272,7 @@ define-command dup-view \
     edit-at %arg{1} %val{buffile} %val{cursor_line} %val{cursor_column}
 }
 
+set-option global tagbar_sort "no"
 hook global WinSetOption filetype=(c|cpp|go|py) %{
     tagbar-enable
 }
