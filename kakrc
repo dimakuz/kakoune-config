@@ -236,9 +236,34 @@ fzf-project-files: fuzzy find files in project' \
     printf "%s\n" "fzf %{proj-edit} %{python3 ~/.config/kak/proj-ls-files.py} %{--expect ctrl-w --ansi -n 2.. $additional_flags}"
 }}
 
+define-command fzf-project-grep-jump -hidden -params .. %{
+    evaluate-commands %sh{
+        file=$(echo -n "$1" | cut -d: -f1)
+        lineno=$(echo -n "$1" | cut -d: -f2)
+        printf "%s\n" "edit -existing $file $lineno"
+    }
+}
+
+define-command fzf-project-grep -params 1 -docstring '
+fzf-project-files: fuzzy find files in project' \
+%{ evaluate-commands %sh{
+    message="Open single or multiple files.
+<ret>: open file in new buffer.
+<c-w>: open file in new window"
+    [ ! -z "${kak_client_env_TMUX}" ] && tmux_keybindings="
+<c-s>: open file in horizontal split
+<c-v>: open file in vertical split"
+
+    printf "%s\n" "info -title 'fzf project' '$message$tmux_keybindings'"
+    [ ! -z "${kak_client_env_TMUX}" ] && additional_flags="--expect ctrl-v --expect ctrl-s"
+    printf "%s\n" "fzf %{fzf-project-grep-jump} %{rg --color=always --with-filename --line-number '$1'} %{--expect ctrl-w --ansi -n 2.. $additional_flags}"
+}}
+
 map global normal <c-p> ': fzf-project-files<ret>'
 map global normal <,> ': fzf-buffer<ret>'
 map global normal <'> ': fzf-buffer-search<ret>'
+# map global normal <a-p> 'bw: grep <c-r>.<reT>' # : grep<c-r>.<ret>'
+map global normal <a-p> '<a-i>w: fzf-project-grep "\b<c-r>.\b"<ret>'
 
 # git gutter
 hook global WinCreate .* %{ evaluate-commands %sh{
