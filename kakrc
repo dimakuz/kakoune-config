@@ -26,7 +26,6 @@ plug "lenormf/kakoune-extra" load %{
     vcs.kak
 }
 plug "ficoos/tool.kak"
-plug "andreyorst/tagbar.kak"
 plug "dimakuz/pydoc.kak"
 
 source "%val{config}/lsp.kak"
@@ -271,11 +270,6 @@ define-command dup-view \
     -docstring 'dup-view <client>: duplicate current view to client' \
 %{
     edit-at %arg{1} %val{buffile} %val{cursor_line} %val{cursor_column}
-}
-
-set-option global tagbar_sort "no"
-hook global WinSetOption filetype=(c|cpp|go|py) %{
-    tagbar-enable
 }
 
 # must be last for ordering reasons
