@@ -27,7 +27,7 @@ plug "lenormf/kakoune-extra" load %{
 }
 plug "ficoos/tool.kak"
 plug "andreyorst/tagbar.kak"
-
+plug "dimakuz/pydoc.kak"
 
 source "%val{config}/lsp.kak"
 
