@@ -274,7 +274,7 @@ fzf-project-files: fuzzy find files in project' \
 
     printf "%s\n" "info -title 'fzf project' '$message$tmux_keybindings'"
     [ ! -z "${kak_client_env_TMUX}" ] && additional_flags="--expect ctrl-v --expect ctrl-s"
-    printf "%s\n" "fzf %{fzf-project-grep-jump} %{rg --color=always --with-filename --line-number '$1'} %{--expect ctrl-w --ansi -n 2.. $additional_flags}"
+    printf "%s\n" "fzf -kak-cmd %{fzf-project-grep-jump} -items-cmd %{rg --color=always --with-filename --line-number '$1'} -fzf-args %{--expect ctrl-w --ansi -n 2.. $additional_flags}"
 }}
 
 map global normal <c-p> ': fzf-project-files<ret>'
